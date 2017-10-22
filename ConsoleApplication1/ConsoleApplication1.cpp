@@ -108,18 +108,26 @@ void test_string()
 	}
 	vector<string>::iterator itr;
 
-	for( itr = tokens.begin(); itr!=tokens.end(); itr++)
+	//for( itr = tokens.begin(); itr!=tokens.end(); itr++)
+	//{
+		//cout << *itr << endl;
+	//}
+	cout << "----------- compare start -------------" << endl;
+	itr = tokens.begin();
+	for (int i = 0;i < tokens.size(); i++)
 	{
-		cout << *itr << endl;
+		cout << tokens[i] << " " << *itr << endl;
+		itr++;
 	}
-	/*
+	cout << "----------- compare __end -------------" << endl;
+	
 	int iData = 0;
 	
 	szData1.clear();
 	cin >> szData1;
-	iData = szData1.
-	cout << iData << endl;
-	*/
+	iData = atoi(szData1.c_str());
+	cout << "input data : " << szData1 << " ...get data : " << iData << endl;
+	
 }
 
 int main() 
