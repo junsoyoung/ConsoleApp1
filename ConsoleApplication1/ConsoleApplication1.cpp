@@ -9,6 +9,7 @@
 #include <map>
 #include <sstream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -44,6 +45,31 @@ list<string> stringToList(string str) {
 	return res;
 }
 
+void getToken(const string& setData, vector<string> & tokens, const string& delim)
+{
+	if (delim.empty())
+	{
+		string buf;
+		stringstream strSrm( setData );
+
+		while (strSrm >> buf)
+		{
+			tokens.push_back(buf);
+		}
+	}
+	else
+	{
+		string::size_type iLastPos = setData.find_first_not_of(delim, 0 );
+		string::size_type iPos = setData.find_first_of(delim, iLastPos);
+
+		while (iPos != string::npos)
+		{
+			tokens.push_back(setData.substr(iLastPos, iPos - iLastPos));
+			iLastPos = setData.find_first_not_of(delim, iPos + 1);
+			iPos = setData.find_first_of(delim, iLastPos);
+		}
+	}
+}
 void test_ex1()
 {
 	string inputs[]{
@@ -75,7 +101,8 @@ void test_ex1()
 }
 
 void test_string()
-{	/*
+{	
+	/*
 	string s;
 	char getData[1024] = { 0x0, };
 	// cin >> s;
@@ -86,12 +113,9 @@ void test_string()
 	cout << " content : " << s << endl;
 	cout << " 3'rd charactor : " << s[2] << endl;
 	*/
-
+	
+	
 	string szData1("CLANG Junsoyoung Life is good");
-	string szData2 = szData1.substr(0, 3);
-	cout << szData1 << endl;
-	cout << szData2 << endl;
-
 	string::size_type pos = szData1.find_first_of(" ,");
 	cout << szData1.substr(0, pos) << endl;
 	cout << szData1.substr(pos + 1, szData1.length()) << endl;
@@ -108,26 +132,53 @@ void test_string()
 	}
 	vector<string>::iterator itr;
 
-	//for( itr = tokens.begin(); itr!=tokens.end(); itr++)
-	//{
-		//cout << *itr << endl;
-	//}
-	cout << "----------- compare start -------------" << endl;
+	cout << "----------- compare start -------------1" << endl;
 	itr = tokens.begin();
-	for (int i = 0;i < tokens.size(); i++)
+	for (int i = 0;i < tokens.size(); i++, itr++)
 	{
 		cout << tokens[i] << " " << *itr << endl;
-		itr++;
+		
 	}
-	cout << "----------- compare __end -------------" << endl;
-	
+	cout << "----------- compare __end -------------1" << endl;
+	/*
 	int iData = 0;
 	
 	szData1.clear();
 	cin >> szData1;
 	iData = atoi(szData1.c_str());
 	cout << "input data : " << szData1 << " ...get data : " << iData << endl;
+	*/
+	szData1.clear();
+	szData1 = "CLANG";
+	szData1 += " Life is clang.";
 	
+	tokens.clear();
+	getToken(szData1, tokens, "\0");
+	cout << "----------- start -------------2" << endl;
+	
+	for ( itr = tokens.begin() ; itr!=tokens.end(); itr++)
+	{
+		cout <<  *itr << endl;
+	}
+	cout << "----------- __end -------------2" << endl;
+	tokens.clear();
+	getToken(szData1, tokens, " .");
+	cout << "----------- start -------------3" << endl;
+	for (itr = tokens.begin(); itr != tokens.end(); itr++)
+	{
+		cout << *itr << endl;
+	}
+	cout << "----------- __end -------------3" << endl;
+	
+	
+}
+
+void test_container()
+{
+	// seq cont : vector, list, deque
+	// 연관 컨테이너 : set, map, 
+
+
 }
 
 int main() 
