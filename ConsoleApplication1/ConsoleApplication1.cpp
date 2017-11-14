@@ -10,6 +10,8 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <memory>
+#include <algorithm>
 
 using namespace std;
 
@@ -173,10 +175,64 @@ void test_string()
 	
 }
 
+struct STR_EX
+{
+	STR_EX() { iData = 0, strData = ""; }
+	int iData;
+	string strData;
+};
+
+void showReview(STR_EX* ss)
+{
+	cout << ss->iData << " " << ss->strData << endl;
+}
 void test_container()
 {
 	// seq cont : vector, list, deque
-	// 연관 컨테이너 : set, map, 
+	// 연관 컨테이너 : set, map,
+
+	vector<STR_EX*> vecSTR_EX;
+
+	auto_ptr<STR_EX> strEX(new STR_EX);
+	auto_ptr<STR_EX> strEX2(new STR_EX);
+	strEX->iData = 11;
+	strEX->strData = "eleven";
+	vecSTR_EX.push_back(strEX.get());
+
+	strEX2->iData = 22;
+	strEX2->strData = "twentytwo";
+	vecSTR_EX.push_back(strEX2.get());
+
+	for (vector<STR_EX*>::iterator it = vecSTR_EX.begin(); it != vecSTR_EX.end();it++)
+	{
+		cout << (*it)->iData << " " << (*it)->strData << endl;
+		// showReview((STR_EX*)(*it));
+		
+	}
+	cout << "<< 2'nd display ----------------------------->" << endl;
+	for_each(vecSTR_EX.begin(), vecSTR_EX.end(), showReview);
+
+	vector<int> vecInt(10);
+	auto a_it = vecInt.begin();
+	*a_it = 100;
+	cout << *a_it << endl;
+
+
+}
+
+// smart pointer
+void test_autoptr()
+{
+	string strData;
+	int iGet=0;
+	//int* iData;
+	//iData = new int;
+	
+	auto_ptr<int> iData = auto_ptr<int>(new int);
+	iGet = 48;
+	*iData = iGet;
+	cout << "Address1 = " << iData.get() << ", Value = " << *iData << endl;
+	cout << "Address2 = " << &iGet << ", Value = " << iGet << endl;
 
 
 }
@@ -185,8 +241,11 @@ int main()
 {
 	// test_ex1();
 
-	test_string();
+	// test_string();
 	
+	// test_autoptr();
+
+	test_container();
 	system("pause");
 
 	return 0;
