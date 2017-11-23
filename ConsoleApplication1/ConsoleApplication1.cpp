@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-
+#include <direct.h>
 
 #include <iostream>
 #include <list>
@@ -191,6 +191,7 @@ void test_container()
 	// seq cont : vector, list, deque
 	// 연관 컨테이너 : set, map,
 
+	/*
 	vector<STR_EX*> vecSTR_EX;
 
 	auto_ptr<STR_EX> strEX(new STR_EX);
@@ -216,7 +217,12 @@ void test_container()
 	auto a_it = vecInt.begin();
 	*a_it = 100;
 	cout << *a_it << endl;
-
+	
+	map<string, int> mapData;
+	mapData["abc"] = 1;
+	mapData["efg"] = 2;
+	cout << mapData.find("abc") << endl;
+	*/
 
 }
 
@@ -237,6 +243,34 @@ void test_autoptr()
 
 }
 
+void test_string2()
+{
+	string szPath1;
+	string szDelim;
+	string szResult;
+	char cPath2[1024];
+	_getcwd(cPath2, 1024);
+
+	// char* --> string
+	szPath1.assign(cPath2, strlen(cPath2));
+	szResult = szPath1 + ", count : " + to_string(szPath1.length());
+	cout << szResult << endl;
+
+	// 마지막의 "\"를 찾아서 위치를 알아내고,
+	szDelim = "\\";
+	size_t len = szPath1.find_last_of(szDelim);
+	if (len != string::npos)
+	{		
+		szResult = szPath1.substr(0, len);
+		cout << szResult << ", count : " <<  to_string( szResult.length())  << endl;
+	}
+	else
+	{
+		cout << "cannot find" << endl;
+	}
+
+}
+
 int main() 
 {
 	// test_ex1();
@@ -245,7 +279,8 @@ int main()
 	
 	// test_autoptr();
 
-	test_container();
+	// test_container();
+	test_string2();
 	system("pause");
 
 	return 0;
