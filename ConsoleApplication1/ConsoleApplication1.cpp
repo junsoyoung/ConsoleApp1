@@ -245,14 +245,22 @@ void test_autoptr()
 
 void test_string2()
 {
-	string szPath1;
-	string szDelim;
-	string szResult;
-	char cPath2[1024];
-	_getcwd(cPath2, 1024);
-
+	string szPath1 = "";
+	string szDelim = "";
+	string szResult = "";
+	// char cPath2[1024];
+	// _getcwd(cPath2, 1024);	
 	// char* --> string
-	szPath1.assign(cPath2, strlen(cPath2));
+	// szPath1.assign(cPath2, strlen(cPath2));
+
+	// auto_ptr<char> cPath1(new char[1024]);
+	// _getcwd( cPath1.get(), 1024);
+
+	szPath1.resize(1024);
+	string::iterator itr = szPath1.begin();
+	_getcwd( &(*itr), 1024);
+	szPath1.resize( strlen(szPath1.c_str()) );
+
 	szResult = szPath1 + ", count : " + to_string(szPath1.length());
 	cout << szResult << endl;
 
