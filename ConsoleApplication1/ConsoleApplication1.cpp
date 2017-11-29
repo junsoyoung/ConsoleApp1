@@ -191,7 +191,7 @@ void test_container()
 	// seq cont : vector, list, deque
 	// 연관 컨테이너 : set, map,
 
-	/*
+	
 	vector<STR_EX*> vecSTR_EX;
 
 	auto_ptr<STR_EX> strEX(new STR_EX);
@@ -217,13 +217,40 @@ void test_container()
 	auto a_it = vecInt.begin();
 	*a_it = 100;
 	cout << *a_it << endl;
-	
+
+	cout << "<< map example display :: start ----------------------------->" << endl;
 	map<string, int> mapData;
 	mapData["abc"] = 1;
 	mapData["efg"] = 2;
-	cout << mapData.find("abc") << endl;
-	*/
 
+	string szData = "";
+	szData = to_string(mapData["abc"]);
+	cout << szData << endl;
+	map<string, int>::iterator it = mapData.find("efg");
+	if (it != mapData.end())
+		cout << it->first << ", " << it->second << endl;
+	else
+		cout << "cannot search." << endl;
+
+	it = mapData.find("asdf");
+	if (it == mapData.end()) 
+		cout << "what? what are you doning??" << endl;
+
+	cout << "<< map example display :: __end ----------------------------->" << endl;
+	
+
+	map<string, string> mapData2;
+	mapData2.insert(make_pair("a", "z"));
+	mapData2.insert(make_pair("b", "y"));
+	pair<string, string> p("c","x");
+	mapData2.insert(p);
+
+
+	map<string, string>::iterator mit = mapData2.find("a");
+	if (mit != mapData2.end())
+	{
+		cout << mit->first << ", " << mit->second << endl;
+	}
 }
 
 // smart pointer
@@ -287,8 +314,8 @@ int main()
 	
 	// test_autoptr();
 
-	// test_container();
-	test_string2();
+	test_container();
+	// test_string2();
 	system("pause");
 
 	return 0;
