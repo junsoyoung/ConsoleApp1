@@ -12,7 +12,9 @@
 #include <string>
 #include <memory>
 #include <algorithm>
-
+#include <fstream>
+#include <chrono> // 20171226
+#include <ctime>  // 20171216
 using namespace std;
 
 struct Node {
@@ -305,6 +307,62 @@ void test_string2()
 	}
 
 }
+// get date & time
+// [since c++11] use chrono lib. to measure duration time 
+using namespace std::chrono;
+void WriteLog(string szMsg)
+{
+	// get directory
+	// make full path ( current directory + date )
+	string szFullName;
+	string szCurName;
+	string szFileName;
+	ofstream hFile;
+
+	// get current directory
+	const int iCharSize = 1024;
+	char cCurPath[iCharSize];
+	memset(cCurPath, 0x0, iCharSize);
+	_getcwd(cCurPath, iCharSize);
+	szCurName.assign(cCurPath, strlen(cCurPath));
+
+	// get filename using date
+	char cDate[iCharSize];	
+	memset(cDate, 0x0, iCharSize);
+	time_t now = time(NULL);
+	struct tm* tmInfo = localtime(&now);
+	strftime(cDate, iCharSize, "%Y%m%d_%H", tmInfo);
+	szFileName.assign(cDate, strlen(cDate));
+
+	// start 
+	time_point< system_clock> t_start = system_clock::now();	
+
+	// make full path name
+	szFullName = szCurName + "\\" + szFileName + ".log";
+
+	hFile.open(szFullName, ios::out|ios::app);
+	if (hFile.is_open())
+	{
+		hFile << szMsg << endl;
+		hFile.close();
+	}
+
+	// duration time  
+	time_point< system_clock> t_end = system_clock::now();
+	seconds Sec = duration_cast<seconds>(t_end - t_start);
+	milliseconds milSec = duration_cast<milliseconds>(t_end - t_start);
+	microseconds microSec = duration_cast<microseconds>(t_end - t_start);
+	minutes min = duration_cast<minutes>(t_end - t_start);
+	hours hour = duration_cast<hours>(t_end - t_start);
+
+	cout << ">> File save time -->  " << endl;
+	cout << ">> " << milSec.count() << "[ms]" << endl;
+	cout << ">> " << microSec.count() << "[um]" << endl;
+	cout << ">> " << Sec.count() << "[sec]" << endl;
+	cout << ">> " << min.count() << "[min]" << endl;
+	cout << ">> " << hour.count() << "[hour]" << endl;
+
+}
 
 int main() 
 {
@@ -314,8 +372,10 @@ int main()
 	
 	// test_autoptr();
 
-	test_container();
+	// test_container();
 	// test_string2();
+
+	WriteLog("my name is junsoyoung.");
 	system("pause");
 
 	return 0;
