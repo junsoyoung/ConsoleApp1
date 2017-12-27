@@ -364,6 +364,26 @@ void WriteLog(string szMsg)
 
 }
 
+int GetIndexFromString(vector<string> vszTarget, vector<string> vszDelim)
+{
+	vector<string>::iterator iT;
+	vector<string>::iterator iD;
+
+	iD = vszDelim.begin();
+
+	for( ; iD != vszDelim.end() ; iD++)
+	{
+		iT = find(vszTarget.begin(), vszTarget.end(), *iD);
+
+		if (iT != vszTarget.end())
+		{
+			int i = distance(vszTarget.begin(), iT);
+			return i;
+		}
+	}
+	return 0;
+}
+
 int main() 
 {
 	// test_ex1();
@@ -375,7 +395,20 @@ int main()
 	// test_container();
 	// test_string2();
 
-	WriteLog("my name is junsoyoung.");
+	// WriteLog("my name is junsoyoung.");
+	
+	vector<string> vecTarget;
+	vector<string> vecDelim;
+
+	vecTarget.push_back("a");
+	vecTarget.push_back("-");
+	vecTarget.push_back("c");
+	vecDelim.push_back("-");
+	vecDelim.push_back("*");
+	int iIndex = GetIndexFromString(vecTarget, vecDelim);
+	stringstream ss;
+	ss << iIndex;
+	WriteLog(ss.str());
 	system("pause");
 
 	return 0;
